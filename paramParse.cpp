@@ -53,7 +53,7 @@ Poradi parametru je libovolne.\n\
 
     // check for mandatory parameters
     if (prog_args->server.empty() || prog_args->unwantedDomainFile.empty()) {
-        std::cout << "Parametry -s a -f jsou povinne.\n";
+        std::cerr << "Parametry -s a -f jsou povinne.\n";
         return EXIT_FAILURE;
     }
 

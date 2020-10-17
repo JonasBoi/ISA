@@ -70,10 +70,12 @@ int setResolverSock(std::string server, int port) {
             if((dnsSock = socket(result->ai_family, SOCK_DGRAM, 0)) == -1)
             {
                 std::cerr << "Socket pro komunikaci s dns se nepodarilo otevrit.\n";
+                return EXIT_SOCK_FAILURE;
             }
             if((connect(dnsSock, result->ai_addr, result->ai_addrlen)) == -1)
             {
                 std::cerr << "K dns serveru se nepodarilo pripojit.\n";
+                return EXIT_SOCK_FAILURE;
             }
 
             return dnsSock;

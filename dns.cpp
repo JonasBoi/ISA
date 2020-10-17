@@ -14,6 +14,7 @@
 #include "paramParse.hpp"
 #include "createSock.hpp"
 #include "parseDns.hpp"
+#include "dnsPacketStruct.hpp"
 
 #define MAX_DNS_SIZE 1024
 #define DNS_PORT 53
@@ -32,14 +33,27 @@ void startServer(int clientsockdesc, int dnssockdesc, std::vector<std::string> u
 
     // loop to recieve queries from clients, gradually serve the incoming queries
     while(true) {
-
         // recieve a message
         n = recvfrom(clientsockdesc, (char*)&buffer, MAX_DNS_SIZE,  MSG_WAITALL, (struct sockaddr *) &cliaddr, &len); 
-
+        
         // parse DNS packet, check for unwanted domains and question type
-        if(parseDnsPacket(buffer, unwanted) != 0) {
+        int rcode = parseDnsPacket(buffer, unwanted);
+
+        // if any problem occurs, send the packet back to client
+        if(rcode != 0) {
+            setAnswerErr(buffer, rcode);
+
+            //test
+            /*
+            dns_header *header = (dns_header *)buffer;
+            header->qr = ntohs(header->qr);
+            std::cerr << header->qr << "\n";
+            header->qr = htons(header->qr);
+            */
+
+            sendto(clientsockdesc, (const char *)buffer, n, MSG_CONFIRM, (const struct sockaddr *) &cliaddr, sizeof(cliaddr));
             continue;
-        }
+        }  
 
         // send query to resolver
         send(dnssockdesc, buffer, n, 0);
@@ -48,11 +62,13 @@ void startServer(int clientsockdesc, int dnssockdesc, std::vector<std::string> u
         int recieved = 0;
         if((recieved = recv(dnssockdesc, buffer, MAX_DNS_SIZE, 0)) < 0)
         {
+            std::cerr << "An error has occured.\n";
             return;
         }
 
         // send answer to client
-        sendto(clientsockdesc, (const char *)buffer, recieved, MSG_CONFIRM, (const struct sockaddr *) &cliaddr, sizeof(cliaddr));
+        //sendto(clientsockdesc, (const char *)buffer, recieved, MSG_CONFIRM, (const struct sockaddr *) &cliaddr, sizeof(cliaddr));
+        send(clientsockdesc, buffer, recieved, 0);
     }
 }
 
