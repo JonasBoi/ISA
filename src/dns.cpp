@@ -67,8 +67,7 @@ void startServer(int clientsockdesc, int dnssockdesc, std::vector<std::string> u
         }
 
         // send answer to client
-        //sendto(clientsockdesc, (const char *)buffer, recieved, MSG_CONFIRM, (const struct sockaddr *) &cliaddr, sizeof(cliaddr));
-        send(clientsockdesc, buffer, recieved, 0);
+        sendto(clientsockdesc, (const char *)buffer, recieved, MSG_CONFIRM, (const struct sockaddr *) &cliaddr, sizeof(cliaddr));
     }
 }
 
