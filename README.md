@@ -7,7 +7,7 @@
 
 "Program dns, který bude filtrovat dotazy typu A směřující na domény v rámci dodaného seznamu a jejich poddomény. Ostatní dotazy bude přeposílat v nezměněné podobě specifikovanému resolveru. Odpovědi na dříve přeposlané dotazy bude program předávat původnímu tazateli."
 
-# Spuštění
+## Spuštění
 Program se přeloží příkazem "make"  
 a spustí příkazem  
   
@@ -15,7 +15,7 @@ a spustí příkazem
   
 Pro podrobnosti k možnostem spuštění: ./dns --help
 
-# Odevzdané soubory
+## Odevzdané soubory
 * src - adresář se zdrojovými soubory
     * dns.cpp
     * createSock.cpp / hpp
