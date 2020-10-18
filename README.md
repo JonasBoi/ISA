@@ -1,4 +1,4 @@
-# projekt do predmetu ISA (FIT VUT)
+# Projekt do předmětu ISA (FIT VUT)
 ## Programování síťové služby - filtrujici DNS resolver
 **Jméno:** Jonáš Sasín  
 **Login:** xsasin05  
@@ -11,7 +11,7 @@
 Program se přeloží příkazem "make"  
 a spustí příkazem  
   
-./dns -s server [-p port] -f filter_file
+**./dns -s server [-p port] -f filter_file**
   
 Pro podrobnosti k možnostem spuštění: ./dns --help
 
