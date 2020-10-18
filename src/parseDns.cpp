@@ -49,14 +49,14 @@ int check_domain(std::string domain, std::vector<std::string> unwanted) {
     for (int i = 0; i < size; i++) {
         //check for domain
         if(domain == unwanted[i]) {
-            std::cerr << "Nezadouci domena \"" << domain << "\".\n";
+            // std::cerr << "Nezadouci domena \"" << domain << "\".\n";
             return EXIT_FAILURE;
         }
 
         //check for subdomain
         subdomain = "." + unwanted[i];
         if(domain.find(subdomain) != std::string::npos) {
-            std::cerr << "Nezadouci domena \"" << domain << "\".\n";
+            // std::cerr << "Nezadouci domena \"" << domain << "\".\n";
             return EXIT_FAILURE;
         }
     }
@@ -64,10 +64,6 @@ int check_domain(std::string domain, std::vector<std::string> unwanted) {
 }
 
 int parseDnsPacket(char *buffer, std::vector<std::string> unwanted) {
-
-    // char buffer[1024];
-    // memcpy(buffer, bufferOG, strlen(bufferOG));
-
     // typecast header
     dns_header *header = (dns_header *)buffer;
 
@@ -95,14 +91,13 @@ int parseDnsPacket(char *buffer, std::vector<std::string> unwanted) {
         if (check_domain(domain, unwanted) != 0) {
             //set correct byte order
             header->qdcount = htons(header->qdcount);
-            dnsQTypeClass->type = htons(dnsQTypeClass->type);
             return REFUSED;
         }
 
-        dnsQTypeClass->type = ntohs(dnsQTypeClass->type);
         // check for question type
+        dnsQTypeClass->type = ntohs(dnsQTypeClass->type);
+
         if (dnsQTypeClass->type != A) {
-            std::cerr << "Nepodporovany typ dotazu.\n";
             //set correct byte order
             header->qdcount = htons(header->qdcount);
             dnsQTypeClass->type = htons(dnsQTypeClass->type);
@@ -122,13 +117,7 @@ void setAnswerErr(char *buffer, int rcode) {
     // typecast header
     dns_header *header = (dns_header *)buffer;
 
-    // set header qr to answer
-    header->qr = ntohs(header->qr);
+    // set header
     header->qr = 1; 
-    header->qr = htons(header->qr);
-
-    // set header rcode
-    header->rcode = ntohs(header->rcode);
     header->rcode = rcode; 
-    header->rcode = htons(header->rcode);
 }

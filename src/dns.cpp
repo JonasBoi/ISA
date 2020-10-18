@@ -41,15 +41,7 @@ void startServer(int clientsockdesc, int dnssockdesc, std::vector<std::string> u
 
         // if any problem occurs, send the packet back to client
         if(rcode != 0) {
-            setAnswerErr(buffer, rcode);
-
-            //test
-            /*
-            dns_header *header = (dns_header *)buffer;
-            header->qr = ntohs(header->qr);
-            std::cerr << header->qr << "\n";
-            header->qr = htons(header->qr);
-            */
+            setAnswerErr(buffer, rcode);        
 
             sendto(clientsockdesc, (const char *)buffer, n, MSG_CONFIRM, (const struct sockaddr *) &cliaddr, sizeof(cliaddr));
             continue;
@@ -62,7 +54,7 @@ void startServer(int clientsockdesc, int dnssockdesc, std::vector<std::string> u
         int recieved = 0;
         if((recieved = recv(dnssockdesc, buffer, MAX_DNS_SIZE, 0)) < 0)
         {
-            std::cerr << "An error has occured.\n";
+            std::cerr << "Vyskytla se neocekavana chyba pri prijmu ze serveru.\n";
             return;
         }
 
