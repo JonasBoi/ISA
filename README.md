@@ -16,15 +16,15 @@ a spustí příkazem
 Pro podrobnosti k možnostem spuštění: ./dns --help
 
 # Odevzdané soubory
- - src - adresář se zdrojovými soubory
+* src - adresář se zdrojovými soubory
   -dns.cpp
   -createSock.cpp / hpp
   -paramParse.cpp / hpp
   -parseDns.cpp / hpp
   -dnsPacketStruct.hpp
- - Makefile - přeložení zdrojového kódu
- - manual.pdf - dokumentace řešení projektu
- - README - tento soubor - informace ke spuštění  
+* Makefile - přeložení zdrojového kódu
+* manual.pdf - dokumentace řešení projektu
+* README - tento soubor - informace ke spuštění  
 
 ## Popis řešení
 -> manual.pdf
