@@ -31,13 +31,16 @@ void startServer(int clientsockdesc, int dnssockdesc, std::vector<std::string> u
 
     memset(&cliaddr, 0, sizeof(cliaddr)); 
 
+    int rcode;
+    int recieved;
+
     // loop to recieve queries from clients, gradually serve the incoming queries
     while(true) {
         // recieve a message
         n = recvfrom(clientsockdesc, (char*)&buffer, MAX_DNS_SIZE,  MSG_WAITALL, (struct sockaddr *) &cliaddr, &len); 
         
         // parse DNS packet, check for unwanted domains and question type
-        int rcode = parseDnsPacket(buffer, unwanted);
+        rcode = parseDnsPacket(buffer, unwanted);
 
         // if any problem occurs, send the packet back to client
         if(rcode != 0) {
@@ -51,8 +54,8 @@ void startServer(int clientsockdesc, int dnssockdesc, std::vector<std::string> u
         send(dnssockdesc, buffer, n, 0);
 
         // recieve an answer from resolver
-        int recieved = 0;
-        if((recieved = recv(dnssockdesc, buffer, MAX_DNS_SIZE, 0)) < 0)
+        recieved = recv(dnssockdesc, buffer, MAX_DNS_SIZE, 0);
+        if(recieved < 0)
         {
             std::cerr << "Vyskytla se neocekavana chyba pri prijmu ze serveru.\n";
             return;

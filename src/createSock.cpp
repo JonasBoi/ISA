@@ -65,7 +65,7 @@ int setResolverSock(std::string server, int port) {
 
     while(result != NULL)
     {
-        if(result->ai_family == AF_INET)
+        if(result->ai_family == AF_INET || result->ai_family == AF_INET6)
         {
             if((dnsSock = socket(result->ai_family, SOCK_DGRAM, 0)) == -1)
             {
@@ -82,6 +82,6 @@ int setResolverSock(std::string server, int port) {
         }
         result = result->ai_next;
     }
-
+    std::cerr << "Zadany DNS resolver se nepodarilo kontaktovat.\n";
     return EXIT_SOCK_FAILURE;
 }
