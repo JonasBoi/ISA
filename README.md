@@ -1,8 +1,6 @@
 # Projekt do předmětu ISA (FIT VUT)
 ## Programování síťové služby - filtrujici DNS resolver
-**Jméno:** Jonáš Sasín  
-**Login:** xsasin05  
-**Datum:** 18.10.2020  
+**hodnocení**: 17,5/20 bodů 
 **Jazyk**: C/C++  
 
 "Program dns, který bude filtrovat dotazy typu A směřující na domény v rámci dodaného seznamu a jejich poddomény. Ostatní dotazy bude přeposílat v nezměněné podobě specifikovanému resolveru. Odpovědi na dříve přeposlané dotazy bude program předávat původnímu tazateli."
